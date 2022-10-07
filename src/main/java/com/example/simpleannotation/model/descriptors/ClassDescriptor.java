@@ -6,36 +6,56 @@ import java.util.List;
 public final class ClassDescriptor {
 
     private static final String TO_STRING_FORMAT =
-            "class %s: constructors: %s, attributes: %s, methods: %s";
+            "class %s: constructors: %s, attributes: %s, methods: %s, debug: %s";
 
     private String className;
-    private List<String> constructors;
-    private List<String> attributes;
-    private List<String> methods;
+    private final List<ConstructorDescriptor> constructors;
+    private final List<AttributeDescriptor> attributes;
+    private final List<MethodDescriptor> methods;
+    // TODO: Delete this
+    private final List<String> debug;
+
+    public ClassDescriptor() {
+        this.constructors = new ArrayList<>();
+        this.attributes = new ArrayList<>();
+        this.methods = new ArrayList<>();
+        this.debug = new ArrayList<>();
+    }
 
     public void setClassName(String className) {
         this.className = className;
     }
 
-    public void addConstructor(String constructor) {
-        if (this.constructors == null) {
-            this.constructors = new ArrayList<>();
-        }
+    public void addConstructor(ConstructorDescriptor constructor) {
         this.constructors.add(constructor);
     }
 
-    public void addAttribute(String attribute) {
-        if (this.attributes == null) {
-            this.attributes = new ArrayList<>();
-        }
+    public void addAttribute(AttributeDescriptor attribute) {
         this.attributes.add(attribute);
     }
 
-    public void addMethod(String method) {
-        if (this.methods == null) {
-            this.methods = new ArrayList<>();
-        }
+    public void addMethod(MethodDescriptor method) {
         this.methods.add(method);
+    }
+
+    public void addDebug(String s) {
+        this.debug.add(s);
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public List<ConstructorDescriptor> getConstructors() {
+        return constructors;
+    }
+
+    public List<AttributeDescriptor> getAttributes() {
+        return attributes;
+    }
+
+    public List<MethodDescriptor> getMethods() {
+        return methods;
     }
 
     @Override
@@ -44,6 +64,7 @@ public final class ClassDescriptor {
                 this.className,
                 this.constructors,
                 this.attributes,
-                this.methods);
+                this.methods,
+                this.debug);
     }
 }

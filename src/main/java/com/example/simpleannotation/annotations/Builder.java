@@ -10,4 +10,5 @@ import java.lang.annotation.Target;
 public @interface Builder {
     String[] fields() default {};
     String[] fieldsToIgnore() default {};
+    boolean useFluentBuilder() default true;
 }
