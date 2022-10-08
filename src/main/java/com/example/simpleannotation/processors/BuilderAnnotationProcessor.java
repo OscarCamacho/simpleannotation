@@ -68,6 +68,5 @@ public final class BuilderAnnotationProcessor
 
     @Override
     void finalizeElementProcessing(BuilderAnnotatedClass model) {
-        JavaClassWriter writer = new JavaClassWriter(this.processingEnv.getFiler());
     }
 }
