@@ -1,12 +1,11 @@
 package com.example.simpleannotation.model.descriptors;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-
 import java.util.stream.Stream;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 final class AttributeDescriptorTest {
 
@@ -19,13 +18,8 @@ final class AttributeDescriptorTest {
 
     @ParameterizedTest
     @MethodSource("attributeDescriptorProvider")
-    void attributeDesciptor_shouldPrintCorrectly() {
-        String expected = "protected Boolean aBoolean";
-
-        AttributeDescriptor attributeDescriptor = new AttributeDescriptor("aBoolean",
-                "Boolean", "protected");
-
-        assertEquals(attributeDescriptor.toString(), expected);
+    void attributeDescriptor_shouldPrintCorrectly(String expected, AttributeDescriptor descriptor) {
+        assertEquals(expected, descriptor.toString());
     }
 
 }
