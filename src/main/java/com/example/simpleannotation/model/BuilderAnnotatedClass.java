@@ -12,6 +12,7 @@ public final class BuilderAnnotatedClass {
     private String classToBuild;
     private Optional<ConstructorDescriptor> noArgsConstructor;
     private boolean useFluentBuilder;
+    private boolean useSingletonBuilder;
     private Map<AttributeDescriptor, Optional<MethodDescriptor>> attributeSetterMapping;
     private List<ConstructorDescriptor> constructors;
 
@@ -33,12 +34,21 @@ public final class BuilderAnnotatedClass {
         return this;
     }
 
-    public boolean isUseFluentBuilder() {
+    public boolean useFluentBuilder() {
         return useFluentBuilder;
     }
 
     public BuilderAnnotatedClass setUseFluentBuilder(boolean useFluentBuilder) {
         this.useFluentBuilder = useFluentBuilder;
+        return this;
+    }
+
+    public boolean useSingletonBuilder() {
+        return useSingletonBuilder;
+    }
+
+    public BuilderAnnotatedClass setUseSingletonBuilder(boolean useSingletonBuilder) {
+        this.useSingletonBuilder = useSingletonBuilder;
         return this;
     }
 
@@ -52,6 +62,8 @@ public final class BuilderAnnotatedClass {
 
     public BuilderAnnotatedClass setConstructors(List<ConstructorDescriptor> constructors) {
         this.constructors = constructors;
+        this.noArgsConstructor = this.constructors.stream().filter(constructor ->
+                constructor.getArguments().isEmpty()).findFirst();
         return this;
     }
 

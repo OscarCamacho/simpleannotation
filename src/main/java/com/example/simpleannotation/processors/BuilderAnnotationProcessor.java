@@ -62,6 +62,7 @@ public final class BuilderAnnotationProcessor
                 .setConstructors(classDescriptor.getConstructors())
                 .setNoArgsConstructor(noArgsConstructor.orElse(null))
                 .setUseFluentBuilder(annotation.useFluentBuilder())
+                .setUseSingletonBuilder(annotation.useSingletonBuilder())
                 .setAttributeSetterMapping(attributeSetterMapping);
     }
 
