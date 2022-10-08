@@ -51,8 +51,8 @@ public final class MethodDescriptor {
     public String toString() {
         StringBuilder argList = new StringBuilder();
         if (!arguments.isEmpty()) {
-            for (String argName : this.arguments.keySet()) {
-                argList.append(this.arguments.get(argName)).append(" ").append(argName).append(", ");
+            for (Map.Entry<String, String> entry : this.arguments.entrySet()) {
+                argList.append(entry.getValue()).append(" ").append(entry.getKey()).append(", ");
             }
             argList.delete(argList.length() - 2, argList.length());
         }

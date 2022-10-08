@@ -8,7 +8,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
-public final class ConstructorDescriptorTest {
+final class ConstructorDescriptorTest {
 
     private static Stream<Arguments> constructorDescriptorProvider () {
         return Stream.of(
@@ -25,7 +25,7 @@ public final class ConstructorDescriptorTest {
 
     @ParameterizedTest
     @MethodSource("constructorDescriptorProvider")
-    public void constructorDescriptor_shouldPrintCorrectly (String expected,
+    void constructorDescriptor_shouldPrintCorrectly (String expected,
                                                             ConstructorDescriptor constructorDescriptor) {
         assertEquals(expected, constructorDescriptor.toString());
     }

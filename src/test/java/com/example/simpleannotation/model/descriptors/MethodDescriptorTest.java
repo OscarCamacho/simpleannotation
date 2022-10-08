@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public final class MethodDescriptorTest {
+final class MethodDescriptorTest {
 
     private static Stream<Arguments> provideMethodDescriptors () {
         return Stream.of(
@@ -25,7 +25,7 @@ public final class MethodDescriptorTest {
 
     @ParameterizedTest
     @MethodSource("provideMethodDescriptors")
-    public void methodDescriptor_shouldPrintCorrectly(String expected, MethodDescriptor underTest) {
+    void methodDescriptor_shouldPrintCorrectly(String expected, MethodDescriptor underTest) {
         assertEquals(expected, underTest.toString());
     }
 }

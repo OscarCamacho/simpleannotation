@@ -18,18 +18,15 @@ public abstract class AbstractAnnotationProcessor<A extends Annotation, M>
         extends AbstractProcessor {
 
     private final Class<A> annotationClazz;
-    //private final ExecutorService annotationProcessingThreadPool;
 
     protected AbstractAnnotationProcessor (Class<A> annotation) {
         this.annotationClazz = annotation;
-        // this.annotationProcessingThreadPool = Executors.newFixedThreadPool(5);
     }
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations,
                            RoundEnvironment roundEnv) {
         for (Element annotatedElement : roundEnv.getElementsAnnotatedWith(annotationClazz)) {
-            //this.annotationProcessingThreadPool.submit(() -> {
                 try {
                     validateElement(annotatedElement);
                     M transformedModel = transformElementToModel(annotatedElement,
@@ -38,7 +35,6 @@ public abstract class AbstractAnnotationProcessor<A extends Annotation, M>
                 } catch (BadAnnotationUsageException baue) {
                     printErrorMessage(baue.getMessage(), annotatedElement);
                 }
-            //});
         }
         return true;
     }

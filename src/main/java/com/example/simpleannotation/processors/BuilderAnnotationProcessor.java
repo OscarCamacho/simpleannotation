@@ -4,6 +4,7 @@ import com.example.simpleannotation.annotations.Builder;
 import com.example.simpleannotation.exceptions.BadAnnotationUsageException;
 import com.example.simpleannotation.model.BuilderAnnotatedClass;
 import com.example.simpleannotation.model.descriptors.*;
+import com.example.simpleannotation.writter.JavaClassWriter;
 import com.google.auto.service.AutoService;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.SupportedAnnotationTypes;
@@ -66,6 +67,6 @@ public final class BuilderAnnotationProcessor
 
     @Override
     void finalizeElementProcessing(BuilderAnnotatedClass model) {
-        // TODO: build actual builder class
+        JavaClassWriter writer = new JavaClassWriter(this.processingEnv.getFiler());
     }
 }

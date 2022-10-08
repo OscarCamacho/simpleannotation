@@ -18,7 +18,6 @@ public final class TypeMapper extends ElementKindVisitor8<TypeMapper, Void> {
         for (Element element : e.getEnclosedElements()) {
             analyzeElement(element);
         }
-        //e.accept(this, null);
         return this;
     }
 
@@ -72,6 +71,8 @@ public final class TypeMapper extends ElementKindVisitor8<TypeMapper, Void> {
                             enclosed.getKind().name());
                 }
                 this.classDescriptor.addMethod(methodDescriptor);
+                break;
+            default:
                 break;
         }
     }
