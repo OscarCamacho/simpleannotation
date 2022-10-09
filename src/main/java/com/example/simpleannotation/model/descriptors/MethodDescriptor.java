@@ -7,18 +7,21 @@ import java.util.Map;
 
 public final class MethodDescriptor {
 
-    private static final String TO_STRING_FORMAT = "%s %s %s(%s)";
+    private static final String TO_STRING_FORMAT = "%s %s %s(%s)%s";
 
     private final String name;
     private final List<String> modifiers;
     private final Map<String, String> arguments;
     private final String returnType;
 
+    private final CodeBlockDescriptor codeDescriptor;
+
     public MethodDescriptor(String name, String returnType) {
         this.name = name;
         this.returnType = returnType;
         this.arguments = new HashMap<>();
         this.modifiers = new ArrayList<>();
+        this.codeDescriptor = new CodeBlockDescriptor();
     }
 
     public MethodDescriptor addArgument(String argName, String argType) {
@@ -47,6 +50,10 @@ public final class MethodDescriptor {
         return returnType;
     }
 
+    public CodeBlockDescriptor getCodeDescriptor () {
+        return this.codeDescriptor;
+    }
+
     @Override
     public String toString() {
         StringBuilder argList = new StringBuilder();
@@ -56,10 +63,15 @@ public final class MethodDescriptor {
             }
             argList.delete(argList.length() - 2, argList.length());
         }
+        StringBuilder codeBlock = new StringBuilder();
+        if (this.codeDescriptor.isNotEmpty()) {
+            codeBlock.append("{\n").append(codeBlock).append("\n}");
+        }
         return String.format(TO_STRING_FORMAT,
                 String.join(" ", modifiers),
                 returnType,
                 name,
-                argList);
+                argList,
+                codeBlock);
     }
 }
