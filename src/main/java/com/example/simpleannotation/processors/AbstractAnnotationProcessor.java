@@ -1,6 +1,8 @@
 package com.example.simpleannotation.processors;
 
 import com.example.simpleannotation.exceptions.BadAnnotationUsageException;
+import com.example.simpleannotation.exceptions.ClassGenerationException;
+
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.Element;
@@ -32,8 +34,8 @@ public abstract class AbstractAnnotationProcessor<A extends Annotation, M>
                     M transformedModel = transformElementToModel(annotatedElement,
                             annotatedElement.getAnnotation(annotationClazz));
                     finalizeElementProcessing(transformedModel);
-                } catch (BadAnnotationUsageException baue) {
-                    printErrorMessage(baue.getMessage(), annotatedElement);
+                } catch (BadAnnotationUsageException | ClassGenerationException e) {
+                    printErrorMessage(e.getMessage(), annotatedElement);
                 }
         }
         return true;
@@ -67,6 +69,6 @@ public abstract class AbstractAnnotationProcessor<A extends Annotation, M>
      * the build of generated class.
      * @param model - The information needed to complete this step.
      */
-    abstract void finalizeElementProcessing (M model);
+    abstract void finalizeElementProcessing (M model) throws ClassGenerationException;
 
 }
