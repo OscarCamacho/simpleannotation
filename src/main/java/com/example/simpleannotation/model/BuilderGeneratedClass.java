@@ -1,11 +1,11 @@
 package com.example.simpleannotation.model;
 
+import com.example.simpleannotation.exceptions.ClassGenerationException;
 import com.example.simpleannotation.model.descriptors.AttributeDescriptor;
 import com.example.simpleannotation.model.descriptors.ConstructorDescriptor;
 import com.example.simpleannotation.model.descriptors.MethodDescriptor;
 
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public final class BuilderGeneratedClass extends GeneratedClass {
 
@@ -98,15 +98,40 @@ public final class BuilderGeneratedClass extends GeneratedClass {
     }
 
     private void addBuildMethod () {
-        this.getMethods().add(new MethodDescriptor("build",
+        MethodDescriptor buildMethod = new MethodDescriptor("build",
                 this.annotatedClass.getClassToBuild())
                 .addModifier(PUBLIC)
                 .addModifier(FINAL)
                 .addCodeLine("if(this.container.isEmpty()) {")
                 .addCodeLine("\tthrow new IllegalStateException(\"Not enough information to build\");")
-                .addCodeLine("}")
-                // TODO: Finish
-        );
+                .addCodeLine("}");
+        if (this.annotatedClass.getConstructors().isEmpty()
+                ||this.annotatedClass.getNoArgsConstructor().isPresent()) {
+            buildMethod.addCodeLine(String.format("%s result = new %s();",
+                    this.annotatedClass.getClassToBuild(),
+                    this.annotatedClass.getClassToBuild()));
+            for (Map.Entry<AttributeDescriptor, Optional<MethodDescriptor>> attributeMethodMapping:
+                    this.annotatedClass.getAttributeSetterMapping().entrySet()) {
+                // TODO: Finish this.
+            }
+        } else {
+            ConstructorDescriptor leastArgumentsConstructor = this.annotatedClass.getConstructors()
+                    .stream()
+                    .min(Comparator.comparingInt(constructor -> constructor.getArguments().size()))
+                    .orElseThrow(ClassGenerationException::new);
+            List<String> argList = new ArrayList<>();
+            for (Map.Entry<String, String> argument :
+                    leastArgumentsConstructor.getArguments().entrySet()) {
+                buildMethod.addCodeLine(String.format("%s %s = (%s) this.container.get(\"%s\");",
+                        argument.getValue(), argument.getKey(), argument.getValue(), argument.getKey()));
+                argList.add(argument.getKey());
+            }
+            buildMethod.addCodeLine(String.format("%s result = new %s(%s);",
+                    annotatedClass.getClassToBuild(),
+                    annotatedClass.getClassToBuild(),
+                    String.join(", ", argList)));
+        }
+        this.getMethods().add(buildMethod);
     }
 
     private String computeBuilderName () {
