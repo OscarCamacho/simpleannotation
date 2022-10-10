@@ -21,7 +21,7 @@ public final class MethodDescriptor {
         this.returnType = returnType;
         this.arguments = new HashMap<>();
         this.modifiers = new ArrayList<>();
-        this.codeDescriptor = new CodeBlockDescriptor();
+        this.codeDescriptor = new CodeBlockDescriptor().setCodeIndentationLevel(2);
     }
 
     public MethodDescriptor addArgument(String argName, String argType) {
@@ -54,6 +54,11 @@ public final class MethodDescriptor {
         return this.codeDescriptor;
     }
 
+    public MethodDescriptor addCodeLine (String line) {
+        this.codeDescriptor.addLine(line);
+        return this;
+    }
+
     @Override
     public String toString() {
         StringBuilder argList = new StringBuilder();
@@ -65,7 +70,9 @@ public final class MethodDescriptor {
         }
         StringBuilder codeBlock = new StringBuilder();
         if (this.codeDescriptor.isNotEmpty()) {
-            codeBlock.append("{\n").append(codeBlock).append("\n}");
+            codeBlock.append(this.codeDescriptor);
+        } else {
+            codeBlock.append("{}");
         }
         return String.format(TO_STRING_FORMAT,
                 String.join(" ", modifiers),

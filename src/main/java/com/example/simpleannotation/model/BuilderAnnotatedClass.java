@@ -10,6 +10,7 @@ import java.util.Optional;
 
 public final class BuilderAnnotatedClass {
     private String classToBuild;
+    private String classToBuildPackageName;
     private Optional<ConstructorDescriptor> noArgsConstructor;
     private boolean useFluentBuilder;
     private boolean useSingletonBuilder;
@@ -22,6 +23,15 @@ public final class BuilderAnnotatedClass {
 
     public BuilderAnnotatedClass setClassToBuild(String classToBuild) {
         this.classToBuild = classToBuild;
+        return this;
+    }
+
+    public String getClassToBuildPackageName() {
+        return classToBuildPackageName;
+    }
+
+    public BuilderAnnotatedClass setClassToBuildPackageName(String classToBuildPackageName) {
+        this.classToBuildPackageName = classToBuildPackageName;
         return this;
     }
 

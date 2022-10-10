@@ -18,7 +18,7 @@ public final class ConstructorDescriptor {
         this.className = className;
         this.arguments = new HashMap<>();
         this.modifiers = new ArrayList<>();
-        this.codeDescriptor = new CodeBlockDescriptor();
+        this.codeDescriptor = new CodeBlockDescriptor().setCodeIndentationLevel(2);
     }
 
     public ConstructorDescriptor addArgument(String argName, String argType) {
@@ -47,6 +47,11 @@ public final class ConstructorDescriptor {
         return codeDescriptor;
     }
 
+    public ConstructorDescriptor addCodeLine (String line) {
+        this.codeDescriptor.addLine(line);
+        return this;
+    }
+
     @Override
     public String toString() {
         StringBuilder argList = new StringBuilder();
@@ -58,7 +63,9 @@ public final class ConstructorDescriptor {
         }
         StringBuilder codeBlock = new StringBuilder();
         if (this.codeDescriptor.isNotEmpty()) {
-            codeBlock.append("{\n").append(this.codeDescriptor).append("\n}");
+            codeBlock.append(this.codeDescriptor);
+        } else {
+            codeBlock.append("{}");
         }
         return String.format(TO_STRING_FORMAT,
                 String.join(" ", modifiers),

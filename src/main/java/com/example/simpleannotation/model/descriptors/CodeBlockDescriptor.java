@@ -5,6 +5,7 @@ import java.util.List;
 
 public final class CodeBlockDescriptor {
     private final List<String> lines;
+    private int indentationLevel;
 
     public CodeBlockDescriptor () {
         this.lines = new ArrayList<>();
@@ -15,12 +16,28 @@ public final class CodeBlockDescriptor {
         return this;
     }
 
+    public CodeBlockDescriptor setCodeIndentationLevel (int i) {
+        this.indentationLevel = i;
+        return this;
+    }
+
     public boolean isNotEmpty () {
         return !this.lines.isEmpty();
     }
 
     @Override
     public String toString() {
-        return String.join("\n", lines);
+        StringBuilder newLine = new StringBuilder("\n");
+        StringBuilder lastLine = new StringBuilder("\n");
+        for (int i = 0; i < indentationLevel; i++) {
+            newLine.append("\t");
+            if (i < indentationLevel -1) {
+                lastLine.append("\t");
+            }
+        }
+        List<String> linesToPrint = new ArrayList<>();
+        linesToPrint.add("{");
+        linesToPrint.addAll(lines);
+        return String.join(newLine, linesToPrint) + String.join("", lastLine, "}");
     }
 }

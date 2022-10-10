@@ -12,10 +12,10 @@ final class MethodDescriptorTest {
 
     private static Stream<Arguments> provideMethodDescriptors () {
         return Stream.of(
-                Arguments.of("protected void myMethod()",
+                Arguments.of("protected void myMethod(){}",
                         new MethodDescriptor("myMethod", "void")
                                 .addModifier("protected")),
-                Arguments.of("private int myMethod(String s, MyObject mObj)",
+                Arguments.of("private int myMethod(String s, MyObject mObj){}",
                         new MethodDescriptor("myMethod", "int")
                                 .addModifier("private")
                                 .addArgument("s", "String")

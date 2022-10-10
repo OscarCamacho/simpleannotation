@@ -13,11 +13,15 @@ public abstract class GeneratedClass {
     private String className;
     private String extendClass;
     private List<String> implementClasses;
+    private List<String> imports;
+    private List<String> staticImports;
     private List<AttributeDescriptor> attributes;
     private List<ConstructorDescriptor> constructors;
     private List<MethodDescriptor> methods;
 
     protected GeneratedClass () {
+        this.imports = new ArrayList<>();
+        this.staticImports = new ArrayList<>();
         this.implementClasses = new ArrayList<>();
         this.attributes = new ArrayList<>();
         this.constructors = new ArrayList<>();
@@ -60,6 +64,24 @@ public abstract class GeneratedClass {
         return this;
     }
 
+    public List<String> getImports () {
+        return imports;
+    }
+
+    public GeneratedClass setImports (List<String> imports) {
+        this.imports = imports;
+        return this;
+    }
+
+    public List<String> getStaticImports () {
+        return staticImports;
+    }
+
+    public GeneratedClass setStaticImports (List<String> staticImports) {
+        this.staticImports = staticImports;
+        return this;
+    }
+
     public List<AttributeDescriptor> getAttributes() {
         return attributes;
     }
@@ -92,6 +114,11 @@ public abstract class GeneratedClass {
         StringBuilder classString = new StringBuilder();
         this.getPackageName().ifPresent(packageNameString -> classString.append("package ")
                 .append(packageNameString).append(";\n"));
+        if (!this.imports.isEmpty()) {
+            for (String importString : this.imports) {
+                classString.append(importString).append("\n");
+            }
+        }
         classString.append("public class ")
                 .append(this.getClassName().orElseThrow(ClassGenerationException::new))
                 .append(" ");
@@ -106,19 +133,17 @@ public abstract class GeneratedClass {
                 }
             }
         }
-        classString.append("{\n"); // Class begin
+        classString.append("{ //Class Begin\n"); // Class begin
         for (AttributeDescriptor attribute : this.attributes) {
             classString.append("\t").append(attribute).append(";\n");
         }
         for (ConstructorDescriptor constructor : this.constructors) {
             classString.append("\t").append(constructor).append("\n");
-            // TODO: Figure out constructor body
         }
         for (MethodDescriptor method : this.methods) {
             classString.append("\t").append(method).append("\n");
-            // TODO: Figure out constructor body
         }
-        classString.append("}\n"); // End of Class
+        classString.append("}// Class end\n"); // End of Class
         return classString.toString();
     }
 
