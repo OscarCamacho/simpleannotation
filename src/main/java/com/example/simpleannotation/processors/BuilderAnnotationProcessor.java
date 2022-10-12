@@ -5,7 +5,6 @@ import com.example.simpleannotation.exceptions.BadAnnotationUsageException;
 import com.example.simpleannotation.model.BuilderAnnotatedClass;
 import com.example.simpleannotation.model.descriptors.*;
 import com.example.simpleannotation.writter.BuilderClassWriter;
-import com.example.simpleannotation.writter.JavaClassWriter;
 import com.google.auto.service.AutoService;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.SupportedAnnotationTypes;
@@ -51,17 +50,14 @@ public final class BuilderAnnotationProcessor
         for (AttributeDescriptor attribute : classDescriptor.getAttributes()) {
             Optional<MethodDescriptor> setter = classDescriptor.getMethods().stream()
                     .filter(method ->
-                    method.getName().toLowerCase().equals(String.format("get%s",attribute.getName()))
-            && method.getReturnType().equals(attribute.getType()))
+                    method.getName().toLowerCase().equals(String.format("set%s",attribute.getName())))
                     .findFirst();
             attributeSetterMapping.put(attribute, setter);
         }
-        Optional<ConstructorDescriptor> noArgsConstructor = classDescriptor.getConstructors().stream()
-                .filter(constructor -> constructor.getArguments().isEmpty()).findAny();
         return new BuilderAnnotatedClass()
                 .setClassToBuild(classDescriptor.getClassName())
+                .setClassToBuildPackageName(classDescriptor.getPackageName())
                 .setConstructors(classDescriptor.getConstructors())
-                .setNoArgsConstructor(noArgsConstructor.orElse(null))
                 .setUseFluentBuilder(annotation.useFluentBuilder())
                 .setUseSingletonBuilder(annotation.useSingletonBuilder())
                 .setAttributeSetterMapping(attributeSetterMapping);

@@ -14,28 +14,11 @@ public final class TypeMapper extends ElementKindVisitor8<TypeMapper, Void> {
     @Override
     public TypeMapper visitTypeAsClass(TypeElement e, Void unused) {
         this.classDescriptor.setClassName(e.getSimpleName().toString());
-        this.classDescriptor.addDebug("Enclosed Elements size:" + e.getEnclosedElements().size());
+        String qualifiedName = e.getQualifiedName().toString();
+        this.classDescriptor.setPackageName(qualifiedName.substring(0, qualifiedName.lastIndexOf(".")));
         for (Element element : e.getEnclosedElements()) {
             analyzeElement(element);
         }
-        return this;
-    }
-
-    @Override
-    public TypeMapper visitVariableAsField(VariableElement e, Void unused) {
-        this.classDescriptor.addDebug("visitVariableAsField used");
-        return this;
-    }
-
-    @Override
-    public TypeMapper visitExecutableAsConstructor(ExecutableElement e, Void unused) {
-        this.classDescriptor.addDebug("visitExecutableAsConstructor used");
-        return this;
-    }
-
-    @Override
-    public TypeMapper visitExecutableAsMethod(ExecutableElement e, Void unused) {
-        this.classDescriptor.addDebug("visitExecutableAsMethod used");
         return this;
     }
 
@@ -47,9 +30,10 @@ public final class TypeMapper extends ElementKindVisitor8<TypeMapper, Void> {
                 for (Modifier m : e.getModifiers()) {
                     constructorDescriptor.addModifier(m.name());
                 }
-                for (Element enclosed : e.getEnclosedElements()) {
-                    constructorDescriptor.addArgument(enclosed.getSimpleName().toString(),
-                            enclosed.getClass().getSimpleName());
+                ExecutableElement constructorElement = (ExecutableElement) e;
+                for (VariableElement parameter : constructorElement.getParameters()) {
+                    constructorDescriptor.addArgument(parameter.getSimpleName().toString(),
+                            parameter.asType().toString());
                 }
                 this.classDescriptor.addConstructor(constructorDescriptor);
                 break;

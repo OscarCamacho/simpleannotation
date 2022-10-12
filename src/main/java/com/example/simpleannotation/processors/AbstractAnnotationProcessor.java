@@ -38,12 +38,12 @@ public abstract class AbstractAnnotationProcessor<A extends Annotation, M>
                     printErrorMessage(e.getMessage(), annotatedElement);
                 }
         }
-        return true;
+        return false;
     }
 
     private void printErrorMessage (String errorMessage, Element element) {
         this.processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR,
-                errorMessage, element);
+                errorMessage != null ? errorMessage : "", element);
     }
 
     /**

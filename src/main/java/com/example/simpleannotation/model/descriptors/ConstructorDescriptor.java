@@ -1,9 +1,6 @@
 package com.example.simpleannotation.model.descriptors;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public final class ConstructorDescriptor {
 
@@ -16,7 +13,7 @@ public final class ConstructorDescriptor {
 
     public ConstructorDescriptor(String className) {
         this.className = className;
-        this.arguments = new HashMap<>();
+        this.arguments = new LinkedHashMap<>();
         this.modifiers = new ArrayList<>();
         this.codeDescriptor = new CodeBlockDescriptor().setCodeIndentationLevel(2);
     }
