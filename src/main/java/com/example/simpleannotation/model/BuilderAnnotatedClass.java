@@ -10,8 +10,10 @@ import java.util.Optional;
 
 public final class BuilderAnnotatedClass {
     private String classToBuild;
-    private Optional<ConstructorDescriptor> noArgsConstructor;
+    private String classToBuildPackageName;
+    private ConstructorDescriptor noArgsConstructor;
     private boolean useFluentBuilder;
+    private boolean useSingletonBuilder;
     private Map<AttributeDescriptor, Optional<MethodDescriptor>> attributeSetterMapping;
     private List<ConstructorDescriptor> constructors;
 
@@ -24,21 +26,34 @@ public final class BuilderAnnotatedClass {
         return this;
     }
 
-    public Optional<ConstructorDescriptor> getNoArgsConstructor() {
-        return noArgsConstructor;
+    public String getClassToBuildPackageName() {
+        return classToBuildPackageName;
     }
 
-    public BuilderAnnotatedClass setNoArgsConstructor(ConstructorDescriptor noArgsConstructor) {
-        this.noArgsConstructor = Optional.ofNullable(noArgsConstructor);
+    public BuilderAnnotatedClass setClassToBuildPackageName(String classToBuildPackageName) {
+        this.classToBuildPackageName = classToBuildPackageName;
         return this;
     }
 
-    public boolean isUseFluentBuilder() {
+    public Optional<ConstructorDescriptor> getNoArgsConstructor () {
+        return Optional.ofNullable(this.noArgsConstructor);
+    }
+
+    public boolean useFluentBuilder() {
         return useFluentBuilder;
     }
 
     public BuilderAnnotatedClass setUseFluentBuilder(boolean useFluentBuilder) {
         this.useFluentBuilder = useFluentBuilder;
+        return this;
+    }
+
+    public boolean useSingletonBuilder() {
+        return useSingletonBuilder;
+    }
+
+    public BuilderAnnotatedClass setUseSingletonBuilder(boolean useSingletonBuilder) {
+        this.useSingletonBuilder = useSingletonBuilder;
         return this;
     }
 
@@ -52,6 +67,11 @@ public final class BuilderAnnotatedClass {
 
     public BuilderAnnotatedClass setConstructors(List<ConstructorDescriptor> constructors) {
         this.constructors = constructors;
+        this.constructors.stream().filter(constructor ->
+                constructor.getArguments().isEmpty())
+                .findFirst()
+                .ifPresent(noArgsConstructorFound ->
+                        this.noArgsConstructor = noArgsConstructorFound);
         return this;
     }
 
