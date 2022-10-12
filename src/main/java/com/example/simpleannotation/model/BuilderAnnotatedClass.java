@@ -10,7 +10,8 @@ import java.util.Optional;
 
 public final class BuilderAnnotatedClass {
     private String classToBuild;
-    private Optional<ConstructorDescriptor> noArgsConstructor;
+    private String classToBuildPackageName;
+    private ConstructorDescriptor noArgsConstructor;
     private boolean useFluentBuilder;
     private boolean useSingletonBuilder;
     private Map<AttributeDescriptor, Optional<MethodDescriptor>> attributeSetterMapping;
@@ -25,13 +26,17 @@ public final class BuilderAnnotatedClass {
         return this;
     }
 
-    public Optional<ConstructorDescriptor> getNoArgsConstructor() {
-        return noArgsConstructor;
+    public String getClassToBuildPackageName() {
+        return classToBuildPackageName;
     }
 
-    public BuilderAnnotatedClass setNoArgsConstructor(ConstructorDescriptor noArgsConstructor) {
-        this.noArgsConstructor = Optional.ofNullable(noArgsConstructor);
+    public BuilderAnnotatedClass setClassToBuildPackageName(String classToBuildPackageName) {
+        this.classToBuildPackageName = classToBuildPackageName;
         return this;
+    }
+
+    public Optional<ConstructorDescriptor> getNoArgsConstructor () {
+        return Optional.ofNullable(this.noArgsConstructor);
     }
 
     public boolean useFluentBuilder() {
@@ -62,8 +67,11 @@ public final class BuilderAnnotatedClass {
 
     public BuilderAnnotatedClass setConstructors(List<ConstructorDescriptor> constructors) {
         this.constructors = constructors;
-        this.noArgsConstructor = this.constructors.stream().filter(constructor ->
-                constructor.getArguments().isEmpty()).findFirst();
+        this.constructors.stream().filter(constructor ->
+                constructor.getArguments().isEmpty())
+                .findFirst()
+                .ifPresent(noArgsConstructorFound ->
+                        this.noArgsConstructor = noArgsConstructorFound);
         return this;
     }
 

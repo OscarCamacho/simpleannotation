@@ -12,12 +12,12 @@ final class ConstructorDescriptorTest {
 
     private static Stream<Arguments> constructorDescriptorProvider () {
         return Stream.of(
-                Arguments.of("private FakeClass(String string, Integer intVariable)",
+                Arguments.of("private FakeClass(String string, Integer intVariable){}",
                         new ConstructorDescriptor("FakeClass")
                                 .addModifier("private")
                                 .addArgument("string", "String")
                                 .addArgument("intVariable", "Integer")),
-                Arguments.of("protected FakeClass()",
+                Arguments.of("protected FakeClass(){}",
                         new ConstructorDescriptor("FakeClass")
                                 .addModifier("protected"))
         );
