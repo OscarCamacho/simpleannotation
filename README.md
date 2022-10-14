@@ -17,7 +17,7 @@ Afterwards, you can add it as a dependency to  your Maven project.
     <dependencies>
         ...
         <dependency>
-            <groupId>com.example</groupId>
+            <groupId>com.camacho</groupId>
             <artifactId>simpleannotation</artifactId>
             <version>1.0</version>
         </dependency>
@@ -49,7 +49,7 @@ compiler what type of elements can be annotated, in this example `YourAnnotation
 annotated with it.
 
 Once you created your new annotation, all that is left is to create your annotation processor. You are welcome to extend
-from `com.example.AbstractAnnotationProcessor` which already implements from 
+from `com.camacho.AbstractAnnotationProcessor` which already implements from 
 `javax.annotation.processing.AbstractProcessor` and provides some useful lifecycle annotation processing methods to
 implement, or you can extend from `javax.annotation.processing.AbstractProcessor` yourself.
 
