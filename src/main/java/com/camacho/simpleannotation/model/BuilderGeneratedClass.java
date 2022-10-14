@@ -118,7 +118,9 @@ public final class BuilderGeneratedClass extends GeneratedClass {
                 AttributeDescriptor attribute = attributeMethodMapping.getKey();
                 if (attributeMethodMapping.getValue().isPresent()) {
                     MethodDescriptor setter = attributeMethodMapping.getValue()
-                            .orElseThrow(ClassGenerationException::new);
+                            .orElseThrow(() ->
+                                    new ClassGenerationException(
+                                            String.format("Can't obtain setter for %s", attribute.getName())));
                     buildMethod.addCodeLine(String.format("result.%s((%s)this.container.get(\"%s\"));",
                             setter.getName(),
                             attribute.getType(),
@@ -129,14 +131,15 @@ public final class BuilderGeneratedClass extends GeneratedClass {
                             attribute.getType(),
                             attribute.getName()));
                 } else {
-                    throw new ClassGenerationException();
+                    throw new ClassGenerationException(String.format("Non public attribute %s without a valid setter",
+                            attribute.getName()));
                 }
             }
         } else {
             ConstructorDescriptor leastArgumentsConstructor = this.annotatedClass.getConstructors()
                     .stream()
                     .min(Comparator.comparingInt(constructor -> constructor.getArguments().size()))
-                    .orElseThrow(ClassGenerationException::new);
+                    .orElseThrow(() -> new ClassGenerationException("Can't obtain a suitable constructor"));
             for (Map.Entry<String, String> argument :
                     leastArgumentsConstructor.getArguments().entrySet()) {
                 buildMethod.addCodeLine(String.format("%s %s = (%s) this.container.get(\"%s\");",
@@ -158,7 +161,10 @@ public final class BuilderGeneratedClass extends GeneratedClass {
                         missingAttribute.getKey().getName(),
                         missingAttribute.getKey().getType(),
                         missingAttribute.getKey().getName()));
-                MethodDescriptor setter = missingAttribute.getValue().orElseThrow(ClassGenerationException::new);
+                MethodDescriptor setter = missingAttribute.getValue().orElseThrow(() ->
+                        new ClassGenerationException(String.format(
+                                "Can't obtain a suitable setter for attribute %s",
+                                missingAttribute.getKey().getName())));
                 buildMethod.addCodeLine(String.format("result.%s(%s);",
                         setter.getName(),
                         missingAttribute.getKey().getName()));

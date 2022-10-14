@@ -19,8 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-
-@SupportedAnnotationTypes("com.camacho.simpleannotation.Builder")
+@SupportedAnnotationTypes("com.camacho.simpleannotation.annotations.Builder")
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 @AutoService(Processor.class)
 public final class BuilderAnnotationProcessor
@@ -53,7 +52,7 @@ public final class BuilderAnnotationProcessor
         for (AttributeDescriptor attribute : classDescriptor.getAttributes()) {
             Optional<MethodDescriptor> setter = classDescriptor.getMethods().stream()
                     .filter(method ->
-                    method.getName().toLowerCase().equals(String.format("set%s",attribute.getName())))
+                    method.getName().toLowerCase().equals(String.format("set%s",attribute.getName().toLowerCase())))
                     .findFirst();
             attributeSetterMapping.put(attribute, setter);
         }

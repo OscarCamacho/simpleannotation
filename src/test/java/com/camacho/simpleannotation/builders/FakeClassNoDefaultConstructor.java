@@ -1,8 +1,8 @@
 package com.camacho.simpleannotation.builders;
 
 import com.camacho.simpleannotation.annotations.Builder;
-
 import java.util.List;
+import java.util.Objects;
 
 @Builder
 public class FakeClassNoDefaultConstructor {
@@ -57,5 +57,18 @@ public class FakeClassNoDefaultConstructor {
 
     public void setObject(Object object) {
         this.object = object;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FakeClassNoDefaultConstructor that = (FakeClassNoDefaultConstructor) o;
+        return i == that.i && Double.compare(that.d, d) == 0 && Objects.equals(s, that.s) && Objects.equals(strings, that.strings) && Objects.equals(object, that.object);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(i, d, s, strings, object);
     }
 }

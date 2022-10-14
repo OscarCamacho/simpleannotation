@@ -122,7 +122,9 @@ public abstract class GeneratedClass {
             }
         }
         classString.append("public class ")
-                .append(this.getClassName().orElseThrow(ClassGenerationException::new))
+                .append(this.getClassName()
+                        .orElseThrow(() -> new ClassGenerationException(
+                                "Can't obtain a suitable class name for builder")))
                 .append(" ");
         this.getExtendClass().ifPresent(extendClassString -> classString.append("extends ")
                 .append(extendClassString).append(" "));
