@@ -1,7 +1,6 @@
 package com.camacho.simpleannotation.builders;
 
 import com.camacho.simpleannotation.annotations.Builder;
-
 import java.util.List;
 import java.util.Objects;
 

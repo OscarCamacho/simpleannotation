@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.Optional;
 
 
-@SupportedAnnotationTypes("annotations.com.camacho.simpleannotation.Builder")
+@SupportedAnnotationTypes("com.camacho.simpleannotation.Builder")
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 @AutoService(Processor.class)
 public final class BuilderAnnotationProcessor
