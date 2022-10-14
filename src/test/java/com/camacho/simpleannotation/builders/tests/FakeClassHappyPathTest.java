@@ -1,4 +1,4 @@
-package com.camacho.simpleannotation.builders;
+package com.camacho.simpleannotation.builders.tests;
 
 import com.camacho.simpleannotation.builders.FakeClassHappyPath;
 import org.junit.jupiter.api.Test;
@@ -10,11 +10,11 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.*;
 
 final class FakeClassHappyPathTest {
-    /*@Test
+    @Test
     void buider_mustHave_necessaryMethods () {
         List<String> expectedMethods = Arrays.asList("setI", "setD", "setS", "setStrings", "build");
 
-        assertTrue(Arrays.stream(FakeClassHappyPathBuilder.class.getMethods())
+        assertTrue(Arrays.stream(com.camacho.simpleannotation.builders.FakeClassHappyPathBuilder.class.getMethods())
                 .map(Method::getName)
                 .collect(Collectors.toList()).containsAll(expectedMethods));
     }
@@ -28,7 +28,8 @@ final class FakeClassHappyPathTest {
         expected.setS("string");
         expected.setStrings(strings);
 
-        FakeClassHappyPathBuilder builder = FakeClassHappyPathBuilder.getInstance();
+        com.camacho.simpleannotation.builders.FakeClassHappyPathBuilder builder =
+                com.camacho.simpleannotation.builders.FakeClassHappyPathBuilder.getInstance();
         builder.setI(1);
         builder.setD(2.0);
         builder.setS("string");
@@ -39,9 +40,10 @@ final class FakeClassHappyPathTest {
     }
 
     @Test
-    void builder_shouldRequireNewValuesForNewInstance () {
+    void builder_shouldRequireNewValues_forNewInstance () {
         List<String> strings = Arrays.asList("string 1", "string 2");
-        FakeClassHappyPathBuilder builder = FakeClassHappyPathBuilder.getInstance();
+        com.camacho.simpleannotation.builders.FakeClassHappyPathBuilder builder =
+                com.camacho.simpleannotation.builders.FakeClassHappyPathBuilder.getInstance();
         builder.setI(1);
         builder.setD(2.0);
         builder.setS("string");
@@ -49,5 +51,5 @@ final class FakeClassHappyPathTest {
         FakeClassHappyPath obtained = builder.build();
 
         assertThrows(IllegalStateException.class, () -> builder.build());
-    }*/
+    }
 }
