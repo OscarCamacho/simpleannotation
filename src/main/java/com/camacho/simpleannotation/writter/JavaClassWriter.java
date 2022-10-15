@@ -23,7 +23,8 @@ public abstract class JavaClassWriter<T extends GeneratedClass> {
     protected void writeFile(T t) throws ClassGenerationException {
         try {
             JavaFileObject generatedFile = filer.createSourceFile(t.getClassName()
-                    .orElseThrow(() -> new ClassGenerationException("Can't obtain a suitable builder name")));
+                    .orElseThrow(() -> new ClassGenerationException("Can't obtain a suitable builder name")),
+                    t.getPackageElement());
             try (PrintWriter writer = new PrintWriter(generatedFile.openWriter())) {
                 writer.print(t);
             }

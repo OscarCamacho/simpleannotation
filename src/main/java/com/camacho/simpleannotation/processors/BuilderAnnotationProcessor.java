@@ -8,6 +8,7 @@ import com.camacho.simpleannotation.writter.BuilderClassWriter;
 import com.camacho.simpleannotation.annotations.Builder;
 import com.camacho.simpleannotation.exceptions.BadAnnotationUsageException;
 import com.camacho.simpleannotation.model.BuilderAnnotatedClass;
+
 import com.google.auto.service.AutoService;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.SupportedAnnotationTypes;
@@ -15,6 +16,7 @@ import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
+import javax.lang.model.element.PackageElement;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -59,6 +61,7 @@ public final class BuilderAnnotationProcessor
         return new BuilderAnnotatedClass()
                 .setClassToBuild(classDescriptor.getClassName())
                 .setClassToBuildPackageName(classDescriptor.getPackageName())
+                .setPackageElement((PackageElement) annotatedElement.getEnclosingElement())
                 .setConstructors(classDescriptor.getConstructors())
                 .setUseFluentBuilder(annotation.useFluentBuilder())
                 .setUseSingletonBuilder(annotation.useSingletonBuilder())

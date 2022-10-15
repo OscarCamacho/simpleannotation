@@ -1,10 +1,11 @@
 name: 'Test development push'
 
 on:
-  push:
+  pull_request:
+    types: [submitted]
     branches:
-      - 'develop'
       - 'feature/**'
+      - 'develop'
 
 permissions:
   contents: read

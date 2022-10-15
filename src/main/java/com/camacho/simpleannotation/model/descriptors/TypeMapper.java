@@ -7,7 +7,7 @@ public final class TypeMapper extends ElementKindVisitor8<TypeMapper, Void> {
 
     private final ClassDescriptor classDescriptor;
 
-    public TypeMapper () {
+    public TypeMapper() {
         this.classDescriptor = new ClassDescriptor();
     }
 
@@ -22,7 +22,7 @@ public final class TypeMapper extends ElementKindVisitor8<TypeMapper, Void> {
         return this;
     }
 
-    private void analyzeElement (Element e) {
+    private void analyzeElement(Element e) {
         switch (e.getKind()) {
             case CONSTRUCTOR:
                 ConstructorDescriptor constructorDescriptor = new ConstructorDescriptor(

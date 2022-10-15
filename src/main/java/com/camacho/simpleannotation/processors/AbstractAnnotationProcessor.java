@@ -41,7 +41,7 @@ public abstract class AbstractAnnotationProcessor<A extends Annotation, M>
         return false;
     }
 
-    private void printErrorMessage (String errorMessage, Element element) {
+    private void printErrorMessage(String errorMessage, Element element) {
         this.processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR,
                 errorMessage != null ? errorMessage : "", element);
     }
@@ -53,7 +53,7 @@ public abstract class AbstractAnnotationProcessor<A extends Annotation, M>
      * @throws BadAnnotationUsageException - If the element using the annotation is doing so
      * inappropriately.
      */
-    abstract void validateElement (Element annotatedElement) throws BadAnnotationUsageException;
+    abstract void validateElement(Element annotatedElement) throws BadAnnotationUsageException;
 
     /**
      * This method must transform the related information of the <code>annotation</code> and the
@@ -62,13 +62,13 @@ public abstract class AbstractAnnotationProcessor<A extends Annotation, M>
      * @param annotation - The annotation itself.
      * @return an instance of {@link M} containing the necessary information for later consumption
      */
-    abstract M transformElementToModel (Element annotatedElement, A annotation);
+    abstract M transformElementToModel(Element annotatedElement, A annotation);
 
     /**
      * This method triggers the final steps for annotation processing. It may be used to trigger
      * the build of generated class.
      * @param model - The information needed to complete this step.
      */
-    abstract void finalizeElementProcessing (M model) throws ClassGenerationException;
+    abstract void finalizeElementProcessing(M model) throws ClassGenerationException;
 
 }
