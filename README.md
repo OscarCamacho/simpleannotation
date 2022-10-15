@@ -61,4 +61,4 @@ at [this page](https://github.com/google/auto/tree/master/service)
 
 All that is left to do is to process the annotation you just created. The `SimpleAnnotation` project offers some utility
 classes to generate new Java files. Note that at this time it is not compiler checked. Therefore, you may need check for
-errors your generated files. It also does not automatically format your code, so you are responsible for it.
+errors in your generated files. It also does not automatically format your code, so you are responsible for it.
