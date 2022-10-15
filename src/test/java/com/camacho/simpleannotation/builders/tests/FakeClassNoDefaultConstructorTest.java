@@ -51,6 +51,6 @@ final class FakeClassNoDefaultConstructorTest {
         builder.setStrings(strings);
         builder.build();
 
-        assertThrows(IllegalStateException.class, () -> builder.build());
+        assertThrows(IllegalStateException.class, builder::build);
     }
 }

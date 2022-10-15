@@ -49,6 +49,6 @@ final class FakeClassHappyPathTest {
         builder.setStrings(strings);
         FakeClassHappyPath obtained = builder.build();
 
-        assertThrows(IllegalStateException.class, () -> builder.build());
+        assertThrows(IllegalStateException.class, builder::build);
     }
 }
