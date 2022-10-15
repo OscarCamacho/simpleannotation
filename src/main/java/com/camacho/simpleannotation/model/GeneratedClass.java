@@ -21,7 +21,7 @@ public abstract class GeneratedClass {
     private List<ConstructorDescriptor> constructors;
     private List<MethodDescriptor> methods;
 
-    protected GeneratedClass () {
+    protected GeneratedClass() {
         this.imports = new ArrayList<>();
         this.staticImports = new ArrayList<>();
         this.implementClasses = new ArrayList<>();
@@ -66,7 +66,7 @@ public abstract class GeneratedClass {
         return this;
     }
 
-    public List<String> getImports () {
+    public List<String> getImports() {
         return imports;
     }
 
@@ -75,11 +75,11 @@ public abstract class GeneratedClass {
         return this;
     }
 
-    public List<String> getStaticImports () {
+    public List<String> getStaticImports() {
         return staticImports;
     }
 
-    public GeneratedClass setStaticImports (List<String> staticImports) {
+    public GeneratedClass setStaticImports(List<String> staticImports) {
         this.staticImports = staticImports;
         return this;
     }

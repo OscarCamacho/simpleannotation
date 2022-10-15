@@ -35,7 +35,7 @@ public final class BuilderAnnotatedClass {
         return this;
     }
 
-    public Optional<ConstructorDescriptor> getNoArgsConstructor () {
+    public Optional<ConstructorDescriptor> getNoArgsConstructor() {
         return Optional.ofNullable(this.noArgsConstructor);
     }
 

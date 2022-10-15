@@ -25,7 +25,7 @@ public final class ClassDescriptor {
         return this;
     }
 
-    public ClassDescriptor setPackageName (String packageName) {
+    public ClassDescriptor setPackageName(String packageName) {
         this.packageName = packageName;
         return this;
     }

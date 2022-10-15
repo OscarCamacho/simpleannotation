@@ -50,11 +50,11 @@ public final class MethodDescriptor {
         return returnType;
     }
 
-    public CodeBlockDescriptor getCodeDescriptor () {
+    public CodeBlockDescriptor getCodeDescriptor() {
         return this.codeDescriptor;
     }
 
-    public MethodDescriptor addCodeLine (String line) {
+    public MethodDescriptor addCodeLine(String line) {
         this.codeDescriptor.addLine(line);
         return this;
     }

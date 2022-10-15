@@ -7,7 +7,7 @@ public final class CodeBlockDescriptor {
     private final List<String> lines;
     private int indentationLevel;
 
-    public CodeBlockDescriptor () {
+    public CodeBlockDescriptor() {
         this.lines = new ArrayList<>();
     }
 
@@ -16,12 +16,12 @@ public final class CodeBlockDescriptor {
         return this;
     }
 
-    public CodeBlockDescriptor setCodeIndentationLevel (int i) {
+    public CodeBlockDescriptor setCodeIndentationLevel(int i) {
         this.indentationLevel = i;
         return this;
     }
 
-    public boolean isNotEmpty () {
+    public boolean isNotEmpty() {
         return !this.lines.isEmpty();
     }
 

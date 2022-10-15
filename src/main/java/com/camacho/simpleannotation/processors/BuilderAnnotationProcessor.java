@@ -8,6 +8,7 @@ import com.camacho.simpleannotation.writter.BuilderClassWriter;
 import com.camacho.simpleannotation.annotations.Builder;
 import com.camacho.simpleannotation.exceptions.BadAnnotationUsageException;
 import com.camacho.simpleannotation.model.BuilderAnnotatedClass;
+
 import com.google.auto.service.AutoService;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.SupportedAnnotationTypes;

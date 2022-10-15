@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 final class FakeClassHappyPathTest {
     @Test
-    void buider_mustHave_necessaryMethods () {
+    void buider_mustHave_necessaryMethods() {
         List<String> expectedMethods = Arrays.asList("setI", "setD", "setS", "setStrings", "build");
 
         assertTrue(Arrays.stream(com.camacho.simpleannotation.builders.FakeClassHappyPathBuilder.class.getMethods())
@@ -20,7 +20,7 @@ final class FakeClassHappyPathTest {
     }
 
     @Test
-    void builder_mustProvideAValidInstance () {
+    void builder_mustProvideAValidInstance() {
         List<String> strings = Arrays.asList("string 1", "string 2");
         FakeClassHappyPath expected = new FakeClassHappyPath();
         expected.setI(1);
@@ -40,7 +40,7 @@ final class FakeClassHappyPathTest {
     }
 
     @Test
-    void builder_shouldRequireNewValues_forNewInstance () {
+    void builder_shouldRequireNewValues_forNewInstance() {
         List<String> strings = Arrays.asList("string 1", "string 2");
         com.camacho.simpleannotation.builders.FakeClassHappyPathBuilder builder =
                 com.camacho.simpleannotation.builders.FakeClassHappyPathBuilder.getInstance();

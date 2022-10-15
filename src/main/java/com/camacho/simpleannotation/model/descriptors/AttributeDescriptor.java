@@ -20,7 +20,7 @@ public final class AttributeDescriptor {
         return type;
     }
 
-    public String getAccessModifier () {
+    public String getAccessModifier() {
         return this.accessModifier;
     }
 

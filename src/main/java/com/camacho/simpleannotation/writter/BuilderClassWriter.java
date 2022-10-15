@@ -11,7 +11,7 @@ public final class BuilderClassWriter extends JavaClassWriter<BuilderGeneratedCl
         super(filer);
     }
 
-    public void generateBuilderClass (BuilderAnnotatedClass builderAnnotatedClass)
+    public void generateBuilderClass(BuilderAnnotatedClass builderAnnotatedClass)
             throws ClassGenerationException {
         this.writeFile(new BuilderGeneratedClass(builderAnnotatedClass));
     }

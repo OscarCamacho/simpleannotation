@@ -44,7 +44,7 @@ public final class ConstructorDescriptor {
         return codeDescriptor;
     }
 
-    public ConstructorDescriptor addCodeLine (String line) {
+    public ConstructorDescriptor addCodeLine(String line) {
         this.codeDescriptor.addLine(line);
         return this;
     }

@@ -36,7 +36,7 @@ public final class BuilderGeneratedClass extends GeneratedClass {
         addBuildMethod();
     }
 
-    private void addCommonFields () {
+    private void addCommonFields() {
         this.getAttributes().add(new AttributeDescriptor("container", "Map<String, Object>", PRIVATE));
         this.getImports().add("import java.util.Map;");
         this.getImports().add("import java.util.HashMap;");
@@ -70,7 +70,7 @@ public final class BuilderGeneratedClass extends GeneratedClass {
         this.getConstructors().add(publicConstructor);
     }
 
-    private void addFluentSetters () {
+    private void addFluentSetters() {
         for (Map.Entry<AttributeDescriptor, Optional<MethodDescriptor>> attributeMethodMapping :
              this.annotatedClass.getAttributeSetterMapping().entrySet()) {
             this.getMethods().add(new MethodDescriptor(
@@ -86,7 +86,7 @@ public final class BuilderGeneratedClass extends GeneratedClass {
         }
     }
 
-    private void addSimpleSetters () {
+    private void addSimpleSetters() {
         for(Map.Entry<AttributeDescriptor, Optional<MethodDescriptor>> attributeMethodMapping:
                 this.annotatedClass.getAttributeSetterMapping().entrySet()) {
             this.getMethods().add(new MethodDescriptor(
@@ -100,7 +100,7 @@ public final class BuilderGeneratedClass extends GeneratedClass {
         }
     }
 
-    private void addBuildMethod () {
+    private void addBuildMethod() {
         MethodDescriptor buildMethod = new MethodDescriptor("build",
                 this.annotatedClass.getClassToBuild())
                 .addModifier(PUBLIC)
@@ -175,12 +175,12 @@ public final class BuilderGeneratedClass extends GeneratedClass {
         this.getMethods().add(buildMethod);
     }
 
-    private String computeBuilderName () {
+    private String computeBuilderName() {
         return this.getClassName()
                 .orElse(String.format(BUILDER_NAME, this.annotatedClass.getClassToBuild()));
     }
 
-    private String computeSetterName (String attributeName) {
+    private String computeSetterName(String attributeName) {
         return "set" + attributeName.substring(0,1).toUpperCase() +
                 attributeName.substring(1);
     }

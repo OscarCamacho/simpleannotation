@@ -15,7 +15,7 @@ final class FakeClassNoDefaultConstructorTest {
             "setObject", "build");
 
     @Test
-    void builder_shouldHave_expectedMethods () {
+    void builder_shouldHave_expectedMethods() {
         assertTrue(Arrays.stream(
                 com.camacho.simpleannotation.builders.FakeClassNoDefaultConstructorBuilder.class.getMethods())
                 .map(Method::getName)
@@ -24,7 +24,7 @@ final class FakeClassNoDefaultConstructorTest {
     }
 
     @Test
-    void builder_mustProvideAValidInstance () {
+    void builder_mustProvideAValidInstance() {
         List<String> strings = Arrays.asList("string1", "string2");
         Object object = new Object();
         com.camacho.simpleannotation.builders.FakeClassNoDefaultConstructor expected =
@@ -44,7 +44,7 @@ final class FakeClassNoDefaultConstructorTest {
     }
 
     @Test
-    void builder_shouldRequireNewValues_forNewInstance () {
+    void builder_shouldRequireNewValues_forNewInstance() {
         List<String> strings = Arrays.asList("string 1", "string 2");
         com.camacho.simpleannotation.builders.FakeClassNoDefaultConstructorBuilder builder =
                 com.camacho.simpleannotation.builders.FakeClassNoDefaultConstructorBuilder.getInstance();
