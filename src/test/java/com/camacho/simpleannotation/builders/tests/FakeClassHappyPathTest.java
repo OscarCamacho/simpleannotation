@@ -1,6 +1,7 @@
 package com.camacho.simpleannotation.builders.tests;
 
 import com.camacho.simpleannotation.builders.FakeClassHappyPath;
+import com.camacho.simpleannotation.builders.FakeClassHappyPathBuilder;
 import org.junit.jupiter.api.Test;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -14,7 +15,7 @@ final class FakeClassHappyPathTest {
     void buider_mustHave_necessaryMethods() {
         List<String> expectedMethods = Arrays.asList("setI", "setD", "setS", "setStrings", "build");
 
-        assertTrue(Arrays.stream(com.camacho.simpleannotation.builders.FakeClassHappyPathBuilder.class.getMethods())
+        assertTrue(Arrays.stream(FakeClassHappyPathBuilder.class.getMethods())
                 .map(Method::getName)
                 .collect(Collectors.toList()).containsAll(expectedMethods));
     }
@@ -28,8 +29,7 @@ final class FakeClassHappyPathTest {
         expected.setS("string");
         expected.setStrings(strings);
 
-        com.camacho.simpleannotation.builders.FakeClassHappyPathBuilder builder =
-                com.camacho.simpleannotation.builders.FakeClassHappyPathBuilder.getInstance();
+        FakeClassHappyPathBuilder builder = FakeClassHappyPathBuilder.getInstance();
         builder.setI(1);
         builder.setD(2.0);
         builder.setS("string");
@@ -42,8 +42,7 @@ final class FakeClassHappyPathTest {
     @Test
     void builder_shouldRequireNewValues_forNewInstance() {
         List<String> strings = Arrays.asList("string 1", "string 2");
-        com.camacho.simpleannotation.builders.FakeClassHappyPathBuilder builder =
-                com.camacho.simpleannotation.builders.FakeClassHappyPathBuilder.getInstance();
+        FakeClassHappyPathBuilder builder = FakeClassHappyPathBuilder.getInstance();
         builder.setI(1);
         builder.setD(2.0);
         builder.setS("string");

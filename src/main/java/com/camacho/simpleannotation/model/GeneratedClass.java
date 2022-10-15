@@ -9,9 +9,12 @@ import com.camacho.simpleannotation.model.descriptors.AttributeDescriptor;
 import com.camacho.simpleannotation.model.descriptors.ConstructorDescriptor;
 import com.camacho.simpleannotation.model.descriptors.MethodDescriptor;
 
+import javax.lang.model.element.PackageElement;
+
 public abstract class GeneratedClass {
     
     private String packageName;
+    private PackageElement packageElement;
     private String className;
     private String extendClass;
     private List<String> implementClasses;
@@ -37,6 +40,14 @@ public abstract class GeneratedClass {
     public GeneratedClass setPackageName(String packageName) {
         this.packageName = packageName;
         return this;
+    }
+
+    public PackageElement getPackageElement() {
+        return packageElement;
+    }
+
+    public void setPackageElement(PackageElement packageElement) {
+        this.packageElement = packageElement;
     }
 
     public Optional<String> getClassName() {
@@ -137,7 +148,7 @@ public abstract class GeneratedClass {
                 }
             }
         }
-        classString.append("{ //Class Begin\n"); // Class begin
+        classString.append("{\n");
         for (AttributeDescriptor attribute : this.attributes) {
             classString.append("\t").append(attribute).append(";\n");
         }
@@ -147,7 +158,7 @@ public abstract class GeneratedClass {
         for (MethodDescriptor method : this.methods) {
             classString.append("\t").append(method).append("\n");
         }
-        classString.append("}// Class end\n"); // End of Class
+        classString.append("}\n");
         return classString.toString();
     }
 

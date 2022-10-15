@@ -21,6 +21,7 @@ public final class BuilderGeneratedClass extends GeneratedClass {
     public BuilderGeneratedClass(BuilderAnnotatedClass annotatedClass) {
         this.annotatedClass = annotatedClass;
         this.setClassName(computeBuilderName());
+        this.setPackageElement(annotatedClass.getPackageElement());
         this.setPackageName(annotatedClass.getClassToBuildPackageName());
         if (annotatedClass.useSingletonBuilder()) {
             addSingletonPattern();

@@ -4,6 +4,7 @@ import com.camacho.simpleannotation.model.descriptors.AttributeDescriptor;
 import com.camacho.simpleannotation.model.descriptors.ConstructorDescriptor;
 import com.camacho.simpleannotation.model.descriptors.MethodDescriptor;
 
+import javax.lang.model.element.PackageElement;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -14,6 +15,8 @@ public final class BuilderAnnotatedClass {
     private ConstructorDescriptor noArgsConstructor;
     private boolean useFluentBuilder;
     private boolean useSingletonBuilder;
+    private PackageElement packageElement;
+
     private Map<AttributeDescriptor, Optional<MethodDescriptor>> attributeSetterMapping;
     private List<ConstructorDescriptor> constructors;
 
@@ -78,6 +81,15 @@ public final class BuilderAnnotatedClass {
     public BuilderAnnotatedClass setAttributeSetterMapping(
             Map<AttributeDescriptor, Optional<MethodDescriptor>> attributeSetterMapping) {
         this.attributeSetterMapping = attributeSetterMapping;
+        return this;
+    }
+
+    public PackageElement getPackageElement() {
+        return packageElement;
+    }
+
+    public BuilderAnnotatedClass setPackageElement(PackageElement packageElement) {
+        this.packageElement = packageElement;
         return this;
     }
 }
