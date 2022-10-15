@@ -1,6 +1,6 @@
 package com.camacho.simpleannotation.exceptions;
 
-public class ClassGenerationException extends RuntimeException{
+public class ClassGenerationException extends RuntimeException {
     public ClassGenerationException (String message) {
         super(message);
     }

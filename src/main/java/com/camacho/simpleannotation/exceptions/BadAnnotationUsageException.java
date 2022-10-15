@@ -1,6 +1,6 @@
 package com.camacho.simpleannotation.exceptions;
 
-public class BadAnnotationUsageException extends Exception{
+public class BadAnnotationUsageException extends Exception {
     private static final String EXCEPTION_DESCRIPTION =
             "Element %s is incorrectly annotated with %s: %s";
 
