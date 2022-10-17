@@ -10,6 +10,8 @@ public final class MethodDescriptor {
     private static final String TO_STRING_FORMAT = "%s %s %s(%s)%s";
 
     private final String name;
+    // A modifier is an element inside of a well known set of keywords, so instead of string
+    // you may use an enum, which if required may return a string property name.
     private final List<String> modifiers;
     private final Map<String, String> arguments;
     private final String returnType;

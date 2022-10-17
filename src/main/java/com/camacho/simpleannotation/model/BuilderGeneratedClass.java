@@ -53,6 +53,7 @@ public final class BuilderGeneratedClass extends GeneratedClass {
                 "private static"));
         MethodDescriptor descriptor = new MethodDescriptor("getInstance", computeBuilderName());
         descriptor.addModifier(PUBLIC);
+        // use enum for the modifiers
         descriptor.addModifier("static");
         descriptor.addCodeLine("if (instance == null) {")
                 .addCodeLine(String.format("\tinstance = new %s();", computeBuilderName()))

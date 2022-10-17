@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 final class FakeClassHappyPathTest {
     @Test
-    void buider_mustHave_necessaryMethods () {
+    void builder_mustHave_necessaryMethods () {
         List<String> expectedMethods = Arrays.asList("setI", "setD", "setS", "setStrings", "build");
 
         assertTrue(Arrays.stream(com.camacho.simpleannotation.builders.FakeClassHappyPathBuilder.class.getMethods())

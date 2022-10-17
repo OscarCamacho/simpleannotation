@@ -1,5 +1,6 @@
 package com.camacho.simpleannotation.model.descriptors;
 
+/** Write java docs comments at least for classes. */
 public final class AttributeDescriptor {
 
     private final String accessModifier;

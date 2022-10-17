@@ -1,6 +1,7 @@
 package com.camacho.simpleannotation.exceptions;
 
-public class BadAnnotationUsageException extends Exception{
+/** Thrown when custom annotation used in an unexpected element or unexpected way. */
+public final class BadAnnotationUsageException extends Exception{
     private static final String EXCEPTION_DESCRIPTION =
             "Element %s is incorrectly annotated with %s: %s";
 
