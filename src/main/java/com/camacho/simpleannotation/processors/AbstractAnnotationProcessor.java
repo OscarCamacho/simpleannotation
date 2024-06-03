@@ -31,8 +31,9 @@ public abstract class AbstractAnnotationProcessor<A extends Annotation, M>
         for (Element annotatedElement : roundEnv.getElementsAnnotatedWith(annotationClazz)) {
                 try {
                     validateElement(annotatedElement);
-                    M transformedModel = transformElementToModel(annotatedElement,
-                            annotatedElement.getAnnotation(annotationClazz));
+                    A annotation = annotatedElement.getAnnotation(annotationClazz);
+                    validateAnnotation(annotation);
+                    M transformedModel = transformElementToModel(annotatedElement, annotation);
                     finalizeElementProcessing(transformedModel);
                 } catch (BadAnnotationUsageException | ClassGenerationException e) {
                     printErrorMessage(e.getMessage(), annotatedElement);
@@ -54,6 +55,15 @@ public abstract class AbstractAnnotationProcessor<A extends Annotation, M>
      * inappropriately.
      */
     abstract void validateElement(Element annotatedElement) throws BadAnnotationUsageException;
+
+    /**
+     * This method must contain the logic to validate if values provided to the annotation
+     * are valid or returns feedback on how to use it appropriately
+     * @param annotation - The element that makes use of the annotation being processed.
+     * @throws BadAnnotationUsageException - If the element using the annotation is doing so
+     * inappropriately.
+     */
+    protected void validateAnnotation(A annotation) throws BadAnnotationUsageException {}
 
     /**
      * This method must transform the related information of the <code>annotation</code> and the
