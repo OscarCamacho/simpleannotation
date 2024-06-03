@@ -16,7 +16,7 @@
       <groupId>com.google.auto.service</groupId>
       <artifactId>auto-service</artifactId>
       <scope>provided</scope>
-      <version>1.0.1</version>
+      <version>1.1.1</version>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
@@ -45,8 +45,6 @@
         <version>3.10.1</version>
         <configuration>
           <forceJavacCompilerUse>true</forceJavacCompilerUse>
-            <source>19</source>
-            <target>19</target>
         </configuration>
       </plugin>
       <plugin>
