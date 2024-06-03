@@ -1,11 +1,13 @@
 package com.camacho.simpleannotation.utils;
 
+import com.google.common.collect.Lists;
+
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.Modifier;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 public final class ElementUtils {
     private ElementUtils() {}
@@ -51,8 +53,8 @@ public final class ElementUtils {
                 .map(Element::getEnclosedElements)
                 .map(es -> es.stream()
                         .filter(e -> ElementKind.CONSTRUCTOR.equals(e.getKind()))
-                        .toList())
-                .orElse(List.of());
+                        .collect(Collectors.toList()))
+                .orElse(Lists.newArrayList());
     }
 
     /**
@@ -83,8 +85,8 @@ public final class ElementUtils {
                 .map(Element::getEnclosedElements)
                 .map(es -> es.stream()
                         .filter(e -> ElementKind.METHOD.equals(e.getKind()))
-                        .toList())
-                .orElse(List.of());
+                        .collect(Collectors.toList()))
+                .orElse(Lists.newArrayList());
     }
 
     /**
@@ -115,8 +117,9 @@ public final class ElementUtils {
                 .filter(ElementUtils::isClass)
                 .map(Element::getEnclosedElements)
                 .map(es -> es.stream()
-                        .filter(e -> e.getKind().isExecutable()).toList())
-                .orElse(List.of());
+                        .filter(e -> ElementKind.FIELD.equals(e.getKind()))
+                        .collect(Collectors.toList()))
+                .orElse(Lists.newArrayList());
     }
 
     /**
@@ -148,8 +151,8 @@ public final class ElementUtils {
                 .map(Element::getEnclosedElements)
                 .map(es -> es.stream()
                         .filter(e -> ElementKind.CLASS.equals(e.getKind()))
-                        .toList())
-                .orElse(List.of());
+                        .collect(Collectors.toList()))
+                .orElse(Lists.newArrayList());
     }
 
     /**
@@ -181,8 +184,8 @@ public final class ElementUtils {
                 .map(Element::getEnclosedElements)
                 .map(es -> es.stream()
                         .filter(e -> ElementKind.ENUM.equals(e.getKind()))
-                        .toList())
-                .orElse(List.of());
+                        .collect(Collectors.toList()))
+                .orElse(Lists.newArrayList());
     }
 
     /**
