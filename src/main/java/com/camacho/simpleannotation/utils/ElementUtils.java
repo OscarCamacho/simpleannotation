@@ -1,12 +1,10 @@
 package com.camacho.simpleannotation.utils;
 
+import com.camacho.simpleannotation.exceptions.ClassGenerationException;
 import com.google.common.collect.Lists;
 
-import javax.lang.model.element.Element;
-import javax.lang.model.element.ElementKind;
-import javax.lang.model.element.Modifier;
-import java.util.List;
-import java.util.Optional;
+import javax.lang.model.element.*;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public final class ElementUtils {
@@ -57,6 +55,18 @@ public final class ElementUtils {
                 .orElse(Lists.newArrayList());
     }
 
+    public static <E extends Element> boolean isConstructor(E element) {
+        return Optional.ofNullable(element)
+                .map(e -> ElementKind.CONSTRUCTOR.equals(e.getKind()))
+                .orElse(false);
+    }
+
+    public static <E extends Element> boolean isMethod(E element) {
+        return Optional.ofNullable(element)
+                .map(e -> ElementKind.METHOD.equals(e.getKind()) && e instanceof ExecutableElement)
+                .orElse(false);
+    }
+
     /**
      * Analyzes if an element contains any methods
      * @param elem The element to search within
@@ -89,6 +99,12 @@ public final class ElementUtils {
                 .orElse(Lists.newArrayList());
     }
 
+    public static <E extends Element> boolean isAttribute(E element) {
+        return Optional.ofNullable(element)
+                .map(e -> ElementKind.FIELD.equals(e.getKind()) && e instanceof VariableElement)
+                .orElse(false);
+    }
+
     /**
      * Analyzes if an element contains any properties (fields)
      * @param elem The element to search within
@@ -96,30 +112,32 @@ public final class ElementUtils {
      * and has at least 1 method exists
      * @param <E> The implementation of the element
      */
-    public static <E extends Element> boolean hasProperties(E elem) {
+    public static <E extends Element> boolean hasAttributes(E elem) {
         return Optional.ofNullable(elem)
                 .filter(ElementUtils::isClass)
                 .map(Element::getEnclosedElements)
                 .map(es -> es.stream()
-                        .anyMatch(e -> e.getKind().isField()))
+                        .anyMatch(ElementUtils::isAttribute))
                 .orElse(false);
     }
 
     /**
      * Analyzes an element and attempts to obtain its methods
+     *
      * @param elem the element to analyze
+     * @param <E>  the type of the element to analyze
      * @return a {@link List} containing the methods of the provided element.
      * if the element is null, or it does not contain any methods {@link List#of()} will be returned
-     * @param <E> the type of the element to analyze
      */
-    public static <E extends Element> List<? extends Element> getProperties(E elem) {
+    public static <E extends Element> Set<? extends VariableElement> getAttributesFrom(E elem) {
         return Optional.ofNullable(elem)
                 .filter(ElementUtils::isClass)
                 .map(Element::getEnclosedElements)
                 .map(es -> es.stream()
-                        .filter(e -> ElementKind.FIELD.equals(e.getKind()))
-                        .collect(Collectors.toList()))
-                .orElse(Lists.newArrayList());
+                        .filter(ElementUtils::isArgument)
+                        .map(e -> (VariableElement)e)
+                        .collect(Collectors.toSet()))
+                .orElse(Collections.emptySet());
     }
 
     /**
@@ -186,6 +204,57 @@ public final class ElementUtils {
                         .filter(e -> ElementKind.ENUM.equals(e.getKind()))
                         .collect(Collectors.toList()))
                 .orElse(Lists.newArrayList());
+    }
+
+    /**
+     * Checks if an {@link Element} is the representation of an attribute
+     * @param element The instance to check
+     * @return {@code true} if the provided element is not null and has {@link ElementKind#PARAMETER}
+     * as its kind; {@code false} otherwise
+     * @param <E> the implementation of element provided
+     */
+    public static <E extends Element> boolean isArgument(E element) {
+        return Optional.ofNullable(element)
+                .map(e -> ElementKind.PARAMETER.equals(e.getKind()))
+                .orElse(false);
+    }
+
+    /**
+     * Obtains the arguments of an element that can contain arguments
+     * @param element the instance to be checked
+     * @return a {@link List} of the elements contained by the provided element
+     * @param <E> the actual implementation of {@link Element} to be analyzed
+     */
+    public static <E extends Element> List<? extends VariableElement> getArgumentsFrom(E element) {
+        return Optional.ofNullable(element)
+                .filter(e -> isConstructor(e) || isMethod(element))
+                .filter(ElementUtils::isArgument)
+                .map(e -> (ExecutableElement)e)
+                .map(ExecutableElement::getParameters)
+                .orElseThrow(() -> new ClassGenerationException("Cannot get arguments from element"));
+    }
+
+    /**
+     * Obtains the name of the argument represented by the element provided
+     * @param element the instance to be analyzed
+     * @return a {@link String} representing the argument name of the element
+     * @param <E> the implementation of th element to analyze
+     */
+    public static <E extends Element> String getArgumentName(E element) {
+        return Optional.ofNullable(element)
+                .filter(e -> ElementKind.PARAMETER.equals(e.getKind()) && e instanceof VariableElement)
+                .map(e -> (VariableElement)e)
+                .map(VariableElement::getSimpleName)
+                .map(Object::toString)
+                .orElseThrow(() -> new ClassGenerationException("Cannot parse element to get Argument Name"));
+    }
+
+    public static <E extends Element> String getArgumentType(E element) {
+        return Optional.ofNullable(element)
+                .filter(e -> ElementKind.PARAMETER.equals(e.getKind()) && e instanceof VariableElement)
+                .map(Element::asType)
+                .map(Object::toString)
+                .orElseThrow(() -> new ClassGenerationException("Cannot parse element to get Argument Name"));
     }
 
     /**

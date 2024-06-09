@@ -1,4 +1,5 @@
 # Simple Annotation
+## [Watch the tech talk here!](https://youtu.be/GXNS8EGHAv8?si=NdoBNXKMXVpAvRD-)
 
 ## Requirements
 - Java 8 or newer installed and configured (`JAVA_HOME` environment variable should be available globally)
@@ -62,3 +63,18 @@ at [this page](https://github.com/google/auto/tree/master/service)
 All that is left to do is to process the annotation you just created. The `SimpleAnnotation` project offers some utility
 classes to generate new Java files. Note that at this time it is not compiler checked. Therefore, you may need check for
 errors in your generated files. It also does not automatically format your code, so you are responsible for it.
+
+## Changelog
+
+### Version 1.1
+
+- Adds utility methods to validate the usage of the annotation with `ElementUtils`
+- Now supports validating the annotation through the implementation of the new method 
+`AbstractAnnotationProcessor.validateAnnotation`
+- Fixed visibility of abstract methods of `AbstractAnnotationProcessor`
+- Adds new static method `from(E element)` to all descriptors.
+
+# Future
+
+- Make even easier the way annotation processing is done.
+- Build a framework around this? Jk...unless...

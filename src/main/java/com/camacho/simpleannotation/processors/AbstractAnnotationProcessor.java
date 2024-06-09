@@ -54,7 +54,7 @@ public abstract class AbstractAnnotationProcessor<A extends Annotation, M>
      * @throws BadAnnotationUsageException - If the element using the annotation is doing so
      * inappropriately.
      */
-    abstract void validateElement(Element annotatedElement) throws BadAnnotationUsageException;
+    protected abstract void validateElement(Element annotatedElement) throws BadAnnotationUsageException;
 
     /**
      * This method must contain the logic to validate if values provided to the annotation
@@ -72,13 +72,13 @@ public abstract class AbstractAnnotationProcessor<A extends Annotation, M>
      * @param annotation - The annotation itself.
      * @return an instance of {@link M} containing the necessary information for later consumption
      */
-    abstract M transformElementToModel(Element annotatedElement, A annotation);
+    protected abstract M transformElementToModel(Element annotatedElement, A annotation);
 
     /**
      * This method triggers the final steps for annotation processing. It may be used to trigger
      * the build of generated class.
      * @param model - The information needed to complete this step.
      */
-    abstract void finalizeElementProcessing(M model) throws ClassGenerationException;
+    protected abstract void finalizeElementProcessing(M model) throws ClassGenerationException;
 
 }

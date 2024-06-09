@@ -7,5 +7,4 @@ public class ClassGenerationException extends RuntimeException {
     public ClassGenerationException(Throwable t) {
         super(t);
     }
-
 }
