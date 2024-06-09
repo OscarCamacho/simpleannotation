@@ -17,9 +17,9 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.PackageElement;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+
+import static com.camacho.simpleannotation.utils.ElementUtils.isClass;
 
 @SupportedAnnotationTypes("com.camacho.simpleannotation.annotations.Builder")
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
@@ -33,8 +33,8 @@ public final class BuilderAnnotationProcessor
     }
 
     @Override
-    void validateElement(Element annotatedElement) throws BadAnnotationUsageException {
-        if (!annotatedElement.getKind().isClass()) {
+    protected void validateElement(Element annotatedElement) throws BadAnnotationUsageException {
+        if (!isClass(annotatedElement)) {
             throw new BadAnnotationUsageException(annotatedElement.getSimpleName().toString(),
                     ANNOTATION_NAME,
                     "Only classes may use this annotation");
@@ -48,7 +48,19 @@ public final class BuilderAnnotationProcessor
     }
 
     @Override
-    BuilderAnnotatedClass transformElementToModel(Element annotatedElement, Builder annotation) {
+    protected void validateAnnotation(Builder annotation) throws BadAnnotationUsageException {
+        Optional.ofNullable(annotation)
+                .map(Builder::fields)
+                .map(Arrays::asList)
+                .filter(List::isEmpty);
+        Optional.ofNullable(annotation)
+                .map(Builder::fieldsToIgnore)
+                .map(Arrays::asList)
+                .filter(List::isEmpty);
+    }
+
+    @Override
+    protected BuilderAnnotatedClass transformElementToModel(Element annotatedElement, Builder annotation) {
         ClassDescriptor classDescriptor = annotatedElement.accept(new TypeMapper(), null).getClassDescriptor();
         Map<AttributeDescriptor, Optional<MethodDescriptor>> attributeSetterMapping = new HashMap<>();
         for (AttributeDescriptor attribute : classDescriptor.getAttributes()) {
@@ -69,7 +81,7 @@ public final class BuilderAnnotationProcessor
     }
 
     @Override
-    void finalizeElementProcessing(BuilderAnnotatedClass model) {
+    protected void finalizeElementProcessing(BuilderAnnotatedClass model) {
         BuilderClassWriter writer = new BuilderClassWriter(this.processingEnv.getFiler());
         writer.generateBuilderClass(model);
     }
