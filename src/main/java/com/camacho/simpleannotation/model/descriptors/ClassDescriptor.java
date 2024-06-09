@@ -1,7 +1,15 @@
 package com.camacho.simpleannotation.model.descriptors;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.camacho.simpleannotation.exceptions.ClassGenerationException;
+import com.camacho.simpleannotation.utils.ElementUtils;
+
+import javax.lang.model.element.Element;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import static com.camacho.simpleannotation.utils.ElementUtils.getAttributesFrom;
 
 public final class ClassDescriptor {
 
@@ -10,14 +18,14 @@ public final class ClassDescriptor {
 
     private String className;
     private String packageName;
-    private final List<ConstructorDescriptor> constructors;
-    private final List<AttributeDescriptor> attributes;
-    private final List<MethodDescriptor> methods;
+    private final Set<ConstructorDescriptor> constructors;
+    private final Set<AttributeDescriptor> attributes;
+    private final Set<MethodDescriptor> methods;
 
     public ClassDescriptor() {
-        this.constructors = new ArrayList<>();
-        this.attributes = new ArrayList<>();
-        this.methods = new ArrayList<>();
+        this.constructors = new HashSet<>();
+        this.attributes = new HashSet<>();
+        this.methods = new HashSet<>();
     }
 
     public ClassDescriptor setClassName(String className) {
@@ -30,18 +38,30 @@ public final class ClassDescriptor {
         return this;
     }
 
-    public ClassDescriptor addConstructor(ConstructorDescriptor constructor) {
+    public void addConstructor(ConstructorDescriptor constructor) {
         this.constructors.add(constructor);
+    }
+
+    public ClassDescriptor addConstructors(Set<ConstructorDescriptor> constructorDescriptors) {
+        this.constructors.addAll(constructorDescriptors);
         return this;
     }
 
-    public ClassDescriptor addAttribute(AttributeDescriptor attribute) {
+    public void addAttribute(AttributeDescriptor attribute) {
         this.attributes.add(attribute);
+    }
+
+    public ClassDescriptor addAttributes(Set<AttributeDescriptor> attributeDescriptors) {
+        this.attributes.addAll(attributeDescriptors);
         return this;
     }
 
-    public ClassDescriptor addMethod(MethodDescriptor method) {
+    public void addMethod(MethodDescriptor method) {
         this.methods.add(method);
+    }
+
+    public ClassDescriptor addMethods(Set<MethodDescriptor> methodDescriptors) {
+        this.methods.addAll(methodDescriptors);
         return this;
     }
 
@@ -53,15 +73,15 @@ public final class ClassDescriptor {
         return packageName;
     }
 
-    public List<ConstructorDescriptor> getConstructors() {
+    public Set<ConstructorDescriptor> getConstructors() {
         return constructors;
     }
 
-    public List<AttributeDescriptor> getAttributes() {
+    public Set<AttributeDescriptor> getAttributes() {
         return attributes;
     }
 
-    public List<MethodDescriptor> getMethods() {
+    public Set<MethodDescriptor> getMethods() {
         return methods;
     }
 
@@ -73,5 +93,24 @@ public final class ClassDescriptor {
                 this.constructors,
                 this.attributes,
                 this.methods);
+    }
+
+    public static <E extends Element> ClassDescriptor from(E element) {
+        return Optional.ofNullable(element)
+                .map(e -> new ClassDescriptor()
+                        .setPackageName(e.getEnclosingElement().getSimpleName().toString())
+                        .setClassName(e.getSimpleName().toString())
+                        .addConstructors(e.getEnclosedElements().stream()
+                                .filter(ElementUtils::isConstructor)
+                                .map(ConstructorDescriptor::from)
+                                .collect(Collectors.toSet()))
+                        .addAttributes(getAttributesFrom(e).stream()
+                                .map(AttributeDescriptor::from)
+                                .collect(Collectors.toSet()))
+                        .addMethods(ElementUtils.getMethods(e).stream()
+                                .map(MethodDescriptor::from)
+                                .collect(Collectors.toSet()))
+                )
+                .orElseThrow(() -> new ClassGenerationException("Cannot parse element to ClassDescriptor"));
     }
 }

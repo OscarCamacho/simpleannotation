@@ -5,9 +5,9 @@ import com.camacho.simpleannotation.model.descriptors.ConstructorDescriptor;
 import com.camacho.simpleannotation.model.descriptors.MethodDescriptor;
 
 import javax.lang.model.element.PackageElement;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 public final class BuilderAnnotatedClass {
     private String classToBuild;
@@ -18,7 +18,7 @@ public final class BuilderAnnotatedClass {
     private PackageElement packageElement;
 
     private Map<AttributeDescriptor, Optional<MethodDescriptor>> attributeSetterMapping;
-    private List<ConstructorDescriptor> constructors;
+    private Set<ConstructorDescriptor> constructors;
 
     public String getClassToBuild() {
         return classToBuild;
@@ -64,11 +64,11 @@ public final class BuilderAnnotatedClass {
         return attributeSetterMapping;
     }
 
-    public List<ConstructorDescriptor> getConstructors() {
+    public Set<ConstructorDescriptor> getConstructors() {
         return constructors;
     }
 
-    public BuilderAnnotatedClass setConstructors(List<ConstructorDescriptor> constructors) {
+    public BuilderAnnotatedClass setConstructors(Set<ConstructorDescriptor> constructors) {
         this.constructors = constructors;
         this.constructors.stream().filter(constructor ->
                 constructor.getArguments().isEmpty())

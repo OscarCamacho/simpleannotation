@@ -1,9 +1,13 @@
 package com.camacho.simpleannotation.model.descriptors;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.camacho.simpleannotation.exceptions.ClassGenerationException;
+import com.camacho.simpleannotation.utils.ElementUtils;
+
+import javax.lang.model.element.Element;
+import javax.lang.model.element.ExecutableElement;
+import java.util.*;
+
+import static java.util.stream.Collectors.toMap;
 
 public final class MethodDescriptor {
 
@@ -26,6 +30,11 @@ public final class MethodDescriptor {
 
     public MethodDescriptor addArgument(String argName, String argType) {
         this.arguments.put(argName, argType);
+        return this;
+    }
+
+    public MethodDescriptor addArguments(Map<String, String> arguments) {
+        Optional.ofNullable(arguments).filter(Map::isEmpty).ifPresent(this.arguments::putAll);
         return this;
     }
 
@@ -80,5 +89,16 @@ public final class MethodDescriptor {
                 name,
                 argList,
                 codeBlock);
+    }
+
+    public static <E extends Element> MethodDescriptor from(E element) {
+        return Optional.ofNullable(element)
+                .filter(ElementUtils::isMethod)
+                .map(e -> (ExecutableElement)e)
+                .map(e -> new MethodDescriptor(e.getSimpleName().toString(), e.getReturnType().toString())
+                        .addArguments(ElementUtils.getArgumentsFrom(e).stream().collect(toMap(
+                                ElementUtils::getArgumentName,
+                                ElementUtils::getArgumentType))))
+                .orElseThrow(() -> new ClassGenerationException("Cannot parse Element to MethodDescriptor"));
     }
 }
